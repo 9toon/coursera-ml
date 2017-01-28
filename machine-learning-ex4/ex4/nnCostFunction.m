@@ -40,32 +40,27 @@ Theta2_grad = zeros(size(Theta2));
 %         computed in ex4.m
 %
 
-% input -> hidden -> output
-% 400 -> 25 -> 10
-
-tmp_j = 0;
-
+% y の各行をベクトルに返還し、5000 * 10 の行列を作る
+yMx = zeros(m, num_labels);
 for i = 1:m
-  yVect = zeros(num_labels, 1);
-  yVect(y(i)) = 1;
-
-  % 1 x 400
-  a_1 = [1, X(i, :)];
-
-  % 1 * 25
-  z_2 = a_1 * Theta1';
-  a_2 = [1, sigmoid(z_2)];
-
-  % 1 * 10
-  z_3 = a_2 * Theta2';
-  a_3 = sigmoid(z_3);
-
-  h = a_3;
-
-  tmp_j = tmp_j + sum(-yVect' .* log(h) - (1 - yVect)' .* log(1 - h));
+  yMx(i, y(i)) = 1;
 end
 
-J = 1 / m * tmp_j;
+% 各行の推測値を算出する
+a_1 = [ones(m, 1) X];
+
+z_2 = a_1 * Theta1';
+a_2 = sigmoid(z_2);
+
+n = size(a_2, 1);
+a_2 = [ones(n, 1) a_2];
+
+z_3 = a_2 * Theta2';
+a_3 = sigmoid(z_3);
+
+hMx = a_3;
+
+J = 1 / m * (sum( ( -yMx .* log(hMx) - (1 - yMx) .* log(1 - hMx) )(:) ));
 
 % Part 2: Implement the backpropagation algorithm to compute the gradients
 %         Theta1_grad and Theta2_grad. You should return the partial derivatives of
