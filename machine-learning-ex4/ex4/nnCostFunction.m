@@ -64,9 +64,7 @@ for i = 1:m
 
   h = a_3;
 
-  for k = 1:num_labels
-    h_theta_of_x_in(i, k) = -yVect(k) * log(h(k)) - (1 - yVect(k)) * log((1 - h)(k));
-  end
+  h_theta_of_x_in(i, :) = -yVect' .* log(h) - (1 - yVect)' .* log(1 - h);
 end
 
 J = 1 / m * sum(h_theta_of_x_in(:));
