@@ -47,21 +47,17 @@ for i = 1:m
 end
 
 % 各行の推測値を算出する
-a_1 = [ones(m, 1) X];
+a_1 = [ones(1, m); X'];
 
-z_2 = a_1 * Theta1';
-a_2 = sigmoid(z_2);
+z_2 = Theta1 * a_1;
 
-n = size(a_2, 1);
-a_2 = [ones(n, 1) a_2];
-
-z_3 = a_2 * Theta2';
+a_2 = [ones(1, m); sigmoid(z_2)];
+z_3 = Theta2 * a_2;
 a_3 = sigmoid(z_3);
 
 hMx = a_3;
 
-J = 1 / m * (sum( ( -yMx .* log(hMx) - (1 - yMx) .* log(1 - hMx) )(:) ));
-
+J = (1 / m) * (sum( ( -yMx .* log(hMx') - (1 - yMx) .* log(1 - hMx') )(:) ));
 J = J + (lambda / (2 * m)) * ( sum((Theta1(:, 2:end) .^ 2)(:)) + sum((Theta2(:, 2:end) .^ 2)(:)));
 
 % Part 2: Implement the backpropagation algorithm to compute the gradients
