@@ -40,12 +40,10 @@ Theta2_grad = zeros(size(Theta2));
 %         computed in ex4.m
 %
 
-% h = sigmoid(X * theta);
-
 % input -> hidden -> output
 % 400 -> 25 -> 10
 
-h_theta_of_x_in = zeros(m, num_labels);
+tmp_j = 0;
 
 for i = 1:m
   yVect = zeros(num_labels, 1);
@@ -64,12 +62,10 @@ for i = 1:m
 
   h = a_3;
 
-  h_theta_of_x_in(i, :) = -yVect' .* log(h) - (1 - yVect)' .* log(1 - h);
+  tmp_j = tmp_j + sum(-yVect' .* log(h) - (1 - yVect)' .* log(1 - h));
 end
 
-J = 1 / m * sum(h_theta_of_x_in(:));
-
-
+J = 1 / m * tmp_j;
 
 % Part 2: Implement the backpropagation algorithm to compute the gradients
 %         Theta1_grad and Theta2_grad. You should return the partial derivatives of
