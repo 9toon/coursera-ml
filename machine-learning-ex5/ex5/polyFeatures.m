@@ -16,12 +16,8 @@ X_poly = zeros(numel(X), p);
 %
 
 
-m = length(X);
-
-for i = 1:m
-  for d = 1:p
-    X_poly(i, d) = power(X(i), d);
-  end
+for d = 1:p
+  X_poly(:, d) = power(X, d);
 end
 
 
