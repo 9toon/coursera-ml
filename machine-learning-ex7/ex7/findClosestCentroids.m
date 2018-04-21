@@ -21,22 +21,9 @@ idx = zeros(size(X,1), 1);
 % Note: You can use a for-loop over the examples to compute this.
 %
 
-
 for i = 1:size(X, 1)
-  x = X(i, :);
-
-  distances = zeros(K, 1);
-  for k = 1:K
-    c = centroids(k, :);
-    distances(k) = norm(x - c);
-  end
-
-  [_, idx(i)] = min(distances);
+  [_, idx(i)] = min(sumsq((X(i, :) - centroids), 2));
 end
-
-
-
-
 
 % =============================================================
 
